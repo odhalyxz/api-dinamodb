@@ -1,29 +1,28 @@
-let UserController = {}
-let  { UsersService } = require('../services/users')
-//const { createUser } = require('../services');
+const  { UsersService } = require('../services/users');
+const bcrypt = require('bcrypt');
+const { v4: uuidv4 } = require('uuid');
+const saltRounds = 10;
+const UserController = {}
 
 UserController.newUser = async (req,res) => {
     
-    // 1. Validacion de los datos acorde a un shema a definir
-    // Aqui es donde se va a estructurar  params, para que pueda ser insertado en la DB
-    // Se utilizara uuid para generar los ids
-    // Crear un shema validatos para los datos
-    //crear un json example para guardarlos datos
-    let { id, username, email, role , IsActive} = req.body;
+    let { username, email, password , isAdmin, IsActive} = req.body;
+    let  hashedPassword = await bcrypt.hash(password, saltRounds);
     let data = {
-        
-            id,
-            username,
-            email,
-            role ,
-            IsActive
+        'id': uuidv4(),
+        username,
+        email,
+        'password':hashedPassword,
+        isAdmin ,
+        IsActive
         
     };
+    console.log("DATA DESDE CONTROLLERS",data);
     
     try {
-        const createdUser = await UsersService.createUser(data);
+        //const createdUser = await UsersService.createUser(data);
         res.status(201).json({
-          data: createdUser,
+          data: data,
           message: "User created"
         });
     } catch (err) {
