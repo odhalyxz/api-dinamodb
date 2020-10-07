@@ -1,12 +1,15 @@
 const UsersService = {}
-const DynamoDB = require('../lib/libdynamodb');
+//const { addItem } = require('../lib/libdynamodb');
+//const db = require('../lib/libdynamodb')
+const { DynamoDB } = require('../lib/libdynamodb') ;
 
 const table = 'Users';
 
-UsersService.createUser = async ({userData}) => {
+UsersService.createUser = async (userData) => {
     
     try {
-        let createUserId = await DynamoDB.createUser({table,userData});
+        
+        let createUserId = await DynamoDB.addItem({table,userData})
         return createUserId;
     } catch (error) {
         console.log(error);
@@ -17,7 +20,7 @@ UsersService.createUser = async ({userData}) => {
 UsersService.deleteUser = async ({userData}) => {
     
     try {
-        let createUserId = await DynamoDB.createUser({table,userData});
+        let createUserId = await db.DynamoDB.addItem({table,userData});
         return createUserId;
     } catch (error) {
         console.log(error);
