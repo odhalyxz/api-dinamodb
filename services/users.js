@@ -6,7 +6,12 @@ const table = 'Users';
 UsersService.createUser = async (userData) => {
     
     try {
-        let createUserId = await DynamoDB.addItem({table,userData})
+        let params = {
+            TableName: table,
+            Item: userData
+        };
+        console.log("data desde servives",params);
+        let createUserId = await DynamoDB.addItem(params)
         return createUserId;
     } catch (error) {
         console.log(error);
@@ -14,13 +19,15 @@ UsersService.createUser = async (userData) => {
     }
 };
 
-UsersService.getUser = async (keys) => {
+UsersService.getUser = async ( keys ) => {
     
     try {
-        //console.log("PARAMS DESDE SERVIVES",keys);
-        
-        //let createUserId = await DynamoDB.getItem(keys);
-        return await DynamoDB.getItem(table, keys );;
+        let params = {
+            TableName: table, 
+            Key: keys
+        }
+        console.log("data desde servives",params);
+        return await DynamoDB.getItem(params);;
     } catch (error) {
         console.log(error);
         return error;

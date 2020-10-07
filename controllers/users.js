@@ -6,7 +6,7 @@ const UserController = {};
 
 UserController.newUser = async (req,res) => {
     
-    let { username, email, password , isAdmin, IsActive} = req.body;
+    let { username, email, password , isAdmin, isActive} = req.body;
     let  hashedPassword = await bcrypt.hash(password, saltRounds);
     let data = {
         'id': uuidv4(),
@@ -14,15 +14,14 @@ UserController.newUser = async (req,res) => {
         email,
         'password':hashedPassword,
         isAdmin ,
-        IsActive
+        isActive
         
     };
-    console.log("DATA DESDE CONTROLLERS",data);
     
     try {
-        //const createdUser = await UsersService.createUser(data);
+        let createdUser = await UsersService.createUser(data);
         res.status(201).json({
-          data: data,
+          data: createdUser,
           message: "User created"
         });
     } catch (err) {
@@ -32,10 +31,10 @@ UserController.newUser = async (req,res) => {
 }
 UserController.getUser = async (req,res) => {
 
-    let { email} = req.body;
+    let  email = req.body;
     
     try {
-        let getUser = await UsersService.getUser({email});
+        let getUser = await UsersService.getUser(email);
         res.status(201).json({
             data: getUser,
             message: "User created"
