@@ -2,7 +2,7 @@ const  { UsersService } = require('../services/users');
 const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
 const saltRounds = 10;
-const UserController = {}
+const UserController = {};
 
 UserController.newUser = async (req,res) => {
     
@@ -30,10 +30,20 @@ UserController.newUser = async (req,res) => {
     }
 
 }
-UserController.deleteUser = async (req,res) => {
-    console.log("REQ.boyd",req.body);
-    return res.json({hola:'hola'});
+UserController.getUser = async (req,res) => {
 
-}
+    let { email} = req.body;
+    
+    try {
+        let getUser = await UsersService.getUser({email});
+        res.status(201).json({
+            data: getUser,
+            message: "User created"
+          });
+    } catch (error) {
+        next(err);
+    }
 
-module.exports = {UserController}
+};
+
+module.exports = { UserController }

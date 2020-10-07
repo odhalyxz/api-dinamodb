@@ -6,6 +6,8 @@ const {UserController} = require('../controllers/users')
 
 // New Kdrama
 router.post("/api/newUser", UserController.newUser );
+router.post("/api/getUser", UserController.getUser);
+
 router.get('/', function(req, res) {
     res.send('hello world');
   });

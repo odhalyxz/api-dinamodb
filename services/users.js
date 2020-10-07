@@ -6,7 +6,6 @@ const table = 'Users';
 UsersService.createUser = async (userData) => {
     
     try {
-        let hashedPassword = await bcrypt.hash(password, 10);
         let createUserId = await DynamoDB.addItem({table,userData})
         return createUserId;
     } catch (error) {
@@ -15,11 +14,13 @@ UsersService.createUser = async (userData) => {
     }
 };
 
-UsersService.deleteUser = async ({userData}) => {
+UsersService.getUser = async (keys) => {
     
     try {
-        let createUserId = await db.DynamoDB.addItem({table,userData});
-        return createUserId;
+        //console.log("PARAMS DESDE SERVIVES",keys);
+        
+        //let createUserId = await DynamoDB.getItem(keys);
+        return await DynamoDB.getItem(table, keys );;
     } catch (error) {
         console.log(error);
         return error;
