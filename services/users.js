@@ -1,14 +1,12 @@
-const UsersService = {}
-//const { addItem } = require('../lib/libdynamodb');
-//const db = require('../lib/libdynamodb')
 const { DynamoDB } = require('../lib/libdynamodb') ;
-
+const UsersService = {};
 const table = 'Users';
+
 
 UsersService.createUser = async (userData) => {
     
     try {
-        
+        let hashedPassword = await bcrypt.hash(password, 10);
         let createUserId = await DynamoDB.addItem({table,userData})
         return createUserId;
     } catch (error) {
